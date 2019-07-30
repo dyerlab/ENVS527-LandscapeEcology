@@ -1,0 +1,81 @@
+---
+title: "Shapefiles"
+---
+
+```{r setup, include=FALSE}
+source("setup.R")
+```
+
+## Impetus
+
+There is a lot of data contained in Shapefiles (ESRI formats) that we need to work with.  Here we look at how to load them in, how to plot them, and how to save them.
+
+### Loading
+
+The ShapeFile is an ubiquitous data format associated with ESRI.  It is actually a collection of several file types, the most important of which include:
+
+```{r echo=FALSE}
+db <- data.frame( Extension = c("*.shp","*.dbf","*.shx", "*.prj"),
+                  Description = c( "The actual shape file containing the geometries",
+                                   "A database file with the data associated with the objects in the shape file",
+                                   "An index file",
+                                   "The file specifying the projection" )
+                  )
+db %>%
+  kable() %>%
+  kable_styling()
+
+```
+
+There may be many more files that are generated as part of the shapefile^[I know, it is kind of a mis-nomer to call it a shapefile if it is a collection of files AND most problematically, it basically violates most rules of Reproducible Research.  But precedence is precedence.]
+
+To read in a shapefile, we'll use the `sf` (Simple Features) library.  Most of the functions in this library have the prefix `st_` to mimic the spatial operations used in PostGIS, so if you make the leap to working with a Postgres/PostGIS spatial database, you'll feel right at home.
+
+```{r}
+library(sf)
+structures <- st_read("./data/structures.shp")
+```
+
+Automatically, the meta data about the object is presented.  Notice that the `structures` object is actually a mix of two classes
+
+```{r}
+class(structures)
+```
+
+making them rather easy to use in the normal workflow.  
+
+```{r}
+summary(structures)
+```
+
+
+
+
+
+```{r cache=TRUE}
+library(ggplot2)
+ggplot(structures) + 
+  geom_sf() + 
+  theme_void() + 
+  coord_sf(datum=NA)
+```
+
+You can use functions from the `dplyr` library to filter the contents of `sf`/`data.frame` objects.  Here is an example where I plot the structures of `SubType==1` as well as paved roads and different water sources.
+
+```{r}
+roads <- st_read("data/roads.shp")
+water <- st_read("data/water.shp")
+```
+
+
+```{r cache=TRUE}
+library(dplyr)
+ggplot() +
+  geom_sf( data=roads %>% filter( Paved == 1), color="darkgreen") + 
+  geom_sf( data=structures %>% filter( SubType == 1), color="black") +
+  geom_sf( data=water, color="lightblue", aes(fill=WaterBodyT)) +
+  labs( fill="Water Type") + 
+  theme_void() + 
+  coord_sf( datum=NA )
+```
+

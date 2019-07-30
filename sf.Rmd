@@ -1,0 +1,24 @@
+---
+title: "sf Objects"
+---
+
+```{r setup, include=FALSE}
+source("setup.R")
+```
+
+
+### `sf` Object Properties
+
+An `sf` object is a fancy `data.frame` with extra propeties.  Here are all the recognized methods that you can use with these objects.
+
+```{r}
+methods(class="sf")
+```
+
+As you see, you can use the square braket and dollar sign notation just for `data.frames`
+
+```{r}
+structures <- st_read("data/structures.shp")
+box <- st_bbox(structures)
+box
+```

@@ -1,0 +1,6 @@
+knitr::opts_chunk$set( echo=TRUE, message=FALSE, warning=FALSE, error=FALSE )
+suppressMessages( library(tidyverse) )
+ggplot2::theme_set( theme_bw() )
+suppressMessages( library(sf) )
+suppressMessages( library(knitr) )
+suppressMessages( library(kableExtra) )

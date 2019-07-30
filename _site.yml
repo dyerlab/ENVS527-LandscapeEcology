@@ -1,0 +1,33 @@
+name: "DLab Spatial"
+navbar:
+  title: "DLab Spatial"
+  right:
+    - text: "Basics"
+      menu:
+        - text: "Points"
+          href: points.html
+        - text: "Lines"
+          href: lines.html
+        - text: "Polygons"
+          href: polygons.html
+        - text: "Projections"
+          href: projections.html
+        - text: "Shapefiles"
+          href: shapefiles.html
+        - text: "Simple Features"
+          href: sf.html
+    - text: "About"
+      href: about.html
+output:
+  html_document:
+    toc: true
+    theme: flatly
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+      smooth_scroll: false 
+      number_sections: false
+    highlight: haddock
+    include: 
+      after_body: footer.html
+    css: styles.css

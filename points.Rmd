@@ -1,0 +1,206 @@
+---
+title: "Points"
+---
+
+```{r setup, include=FALSE}
+source("setup.R")
+```
+
+## Impetus
+
+The location (physical, temporal, ecological, etc.) of an observation can is represented as a coordiante consisting of one or more values specifying the localization within a larger space.  Coordinates repreenting a physical location are represented by datum embedded within a larger
+
+
+## Data
+
+We use data from many sources.  Here are some ways to get it into a format that is workable in R.
+
+### Raw Data
+
+We often start with data in raw format.  For this example, we will be using the *Araptus attenuata* Sonoran desert bark beetle data set from the `scape` library.  If you do not have it, install it from the [Dyerlab Github](https://github.com/dyerlab/scape) account.  Here is what it looks like.
+
+```{r}
+library(scape)
+data("araptus")
+summary(araptus)
+```
+
+These data represent:  
+ 1. Sampling sites in Baja California
+ 2. Census of male and female beetles sampled.
+ 3. The habitat suitability (from a Niche Model) based upon the host-plant range.
+ 
+### Geometric Objects
+
+In addition to normal floating-point numbers being able to represent coordinate data such as latitude and longitude, we can also specify the data as objects recognizable for spatial databases, GIS, opensource libraries, GeoJSON, etc.  These are [ISO standards](http://www.opengeospatial.org/standards/sfa) and if we put our data into these formats, we gain the ability to use a much wider array of tools.
+
+For our purposes, we will use the implentation in the `sf` (Simple Features) library.
+
+```{r}
+library(sf)
+```
+
+Most of the methods in the library are prefixed with `st_` as a nod to the routine names that are used in geospatial databases (so by learning `sf` you are getting a leg up on how to use spatial database calls as well).
+
+To make a point we can construct it as a *Well-Known Text* object (WKT) as:
+
+```{r}
+const <- st_point( c( -111.7, 26.14) ) 
+st_as_text(const)
+```
+
+or as a *Well-Known Binary* (WBK) as:
+
+```{r}
+st_as_binary(const)
+```
+
+We can convert the `data.frame` above to one that contains these GEOMETRY objects.
+
+```{r}
+araptus_sf <- st_as_sf(araptus,coords = c("Longitude","Latitude"))
+araptus_sf
+```
+
+
+However, notice there is no Coordinate Reference System (CRS) associated with these data.   
+
+```{r}
+st_crs(araptus_sf)
+```
+
+The 'coordinates' we specified are just points, which we happened to label as "Latitude" and "Longitude" but we could have called them "X" and "Y" and unless you specify the CRS, R will pretend like it has no idea what system you are using.  If we want to make them represent real coordiantes (as in Latitude and Longitude we yanked off our GPS unit or grabbed from Google Earth), we need to specify the CRS directly.  See the page on [projections](projections.html) for more information.
+
+Here is a quick way to set a CRS using EPSG codes, an EPSG code (see [EPSG.io](https://epsg.io) for more information) is a shorthand notation for a coordinate reference system.  There are tons of different projects available and you can make up your own if you like.  For this example, I'll use one of the most common ones we will run into, `epsg:3857`.
+
+```{r}
+st_crs(araptus_sf) <- 3857
+araptus_sf
+```
+
+The `epgs:3857` is used by Google Maps, ESRI, OpenStreet Maps, Bing, and other providers and is equivallent to (for those who care) to the following WKT definition:
+
+```
+ PROJCS["WGS 84 / Pseudo-Mercator",
+    GEOGCS["WGS 84",
+        DATUM["WGS_1984",
+            SPHEROID["WGS 84",6378137,298.257223563,
+                AUTHORITY["EPSG","7030"]],
+            AUTHORITY["EPSG","6326"]],
+        PRIMEM["Greenwich",0,
+            AUTHORITY["EPSG","8901"]],
+        UNIT["degree",0.0174532925199433,
+            AUTHORITY["EPSG","9122"]],
+        AUTHORITY["EPSG","4326"]],
+    PROJECTION["Mercator_1SP"],
+    PARAMETER["central_meridian",0],
+    PARAMETER["scale_factor",1],
+    PARAMETER["false_easting",0],
+    PARAMETER["false_northing",0],
+    UNIT["metre",1,
+        AUTHORITY["EPSG","9001"]],
+    AXIS["X",EAST],
+    AXIS["Y",NORTH],
+    EXTENSION["PROJ4","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"],
+    AUTHORITY["EPSG","3857"]]
+```
+
+## Plotting
+
+One of the most informative aspects of a bunch of points is a plot.  
+
+### Static Maps
+
+A set of points is useful in some context.   Here is how we can plot these points using the normal ggplot routines. The background `map_data` is an extension of the `ggplot` library to grab map sections.  Here is the polygon for Mexico.
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(DT)
+map_data("world") %>%
+  filter( region == "Mexico", is.na(subregion)) -> baja
+
+datatable( baja )
+```
+
+which as you can see is a dataframe of points to be connected into a single object.  We can plot it using normal approaches as:
+
+```{r}
+ggplot() + 
+  geom_polygon( aes(long,lat), fill="grey", data=baja ) + 
+  geom_point( aes(Longitude,Latitude), data=araptus ) + 
+  xlab("Longitude") + 
+  ylab("Latitude") + 
+  coord_map()
+```
+
+
+We can also use the `sf` object with `ggplot` as they provide their own set of `geom_` objects for ploting and coordinate reference systems.  
+
+```{r}
+ggplot() + 
+  geom_sf( data = araptus_sf, aes(size=Suitability) )  +
+  theme_void() +
+  coord_sf( datum=NA )
+```
+
+
+### Interactive Maps
+
+Since this document is in HTML, we can take advantage of interactive visualizations.  This is a good thing &copy;.  Here is an interactive leaflet map with each sampling locale designated by a circle whose radius is proportional to the habitat suitability of the host plant, all plot on the ESRI World Topo map.
+
+```{r}
+library(leaflet)
+leaflet(araptus) %>%
+  addProviderTiles( providers$Esri.WorldTopoMap) %>%
+  addCircleMarkers( radius = ~Suitability*10, color="green",label = ~Site)
+```
+
+We can even get a bit more fancy in making pie charts representing the numbrer of males and females in each population, scaled by the habitat suitability.
+
+
+```{r}
+library(leaflet.minicharts)
+
+leaflet() %>%
+  addProviderTiles( providers$Esri.WorldTopoMap) %>%
+  addMinicharts( 
+    araptus$Longitude, araptus$Latitude,
+    type = "pie",
+    chartdata = araptus[, c("Males","Females")],
+    width = araptus$Suitability*30
+    )
+```
+
+
+
+
+## Point Operations
+
+With one or more point objects, we can derive several useful features.
+
+### Bounding Boxes
+
+A bounding box is the minimal set of coordinates that create a square box (in Longitude and Latitude) that encompass all the points.  Here is the box for the sites we collected.
+
+```{r}
+st_bbox( araptus_sf )
+```
+
+This is often useful in grabbing maps as we need to know the `extent` of the data.
+
+### Distance
+
+Measuring the distances 
+
+```{r}
+distances <- st_nearest_points( araptus_sf[29,], araptus_sf) 
+st_length( distances )
+```
+
+Notice that the distances here are in an odd unit. 
+```{r}
+distances <- st_nearest_points( araptus_sf[29,], araptus_sf) 
+st_length( distances )
+```
+

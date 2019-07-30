@@ -1,0 +1,20 @@
+---
+title: "DLab Spatial"
+output:
+  html_document:
+    toc: false
+---
+
+This is a collection of vignettes to aid in teaching of undergraduate and graduate courses who utilize R for geospatial analysis.  
+
+```{r fig.align="center", echo=FALSE, fig.width=7, fig.height=7}
+knitr::include_graphics("./images/GIS.png", dpi=NA)
+```
+
+
+ This site is available for download from the [Dyerlab Github](https://github.com/dyerlab) site.  Please enjoy and contribute.
+
+
+
+
+
