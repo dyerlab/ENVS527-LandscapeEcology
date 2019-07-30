@@ -52,7 +52,7 @@ summary(structures)
 
 
 
-```{r cache=TRUE}
+```{r}
 library(ggplot2)
 ggplot(structures) + 
   geom_sf() + 
@@ -68,7 +68,7 @@ water <- st_read("data/water.shp")
 ```
 
 
-```{r cache=TRUE}
+```{r}
 library(dplyr)
 ggplot() +
   geom_sf( data=roads %>% filter( Paved == 1), color="darkgreen") + 
