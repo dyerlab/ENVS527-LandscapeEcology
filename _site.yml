@@ -1,5 +1,4 @@
 name: "DLab Spatial"
-output_dir: ./docs 
 navbar:
   title: "DLab Spatial"
   right:
@@ -44,3 +43,5 @@ output:
       smooth_scroll: false 
       number_sections: false
     css: styles.css
+params:
+  output_dir: "docs"
