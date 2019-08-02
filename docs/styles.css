@@ -1,0 +1,19 @@
+body {
+  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #606c71;
+}
+
+blockquote {
+  font-style: italic
+}
+
+.footer {
+  position: relative;
+  height: 25px;
+  bottom: 10px;
+  font-size: 9pt;
+  padding: 10pt;
+}
+
