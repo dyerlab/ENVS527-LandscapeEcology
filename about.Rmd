@@ -1,5 +1,0 @@
----
-title: "About DLab Spatial"
----
-
-This site was created to provide vignettes covering the basics of geospatial data analaysis using R.  It is provided as an open source 

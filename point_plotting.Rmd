@@ -1,0 +1,115 @@
+---
+title: "Plotting Points"
+---
+
+```{r setup, include=FALSE}
+source("setup.R")
+```
+
+Simply having a bunch of points is not enough.  We gotta see it!  Here are some examples to get you started.
+
+## The Data
+
+Here we will use the enigmatic *Araptus attenuata* data set as a raw `data.frame`
+
+```{r}
+library(scape)
+data("araptus")
+summary(araptus)
+```
+
+and as a `sf` object
+
+```{r}
+library(sf)
+araptus_sf <- st_as_sf(araptus,coords = c("Longitude","Latitude"))
+st_crs(araptus_sf) <- 3857
+araptus_sf
+```
+
+See [point construction](points.html) for a discussion on the differences between `data.frame` and `sf` objects.
+
+
+## Plotting `data.frame` Points
+
+A set of points is useful in some context.   Here is how we can plot these points using the normal ggplot routines. The background `map_data` is an extension of the `ggplot` library to grab map sections.  Here is the polygon for Mexico.
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(DT)
+map_data("world") %>%
+  filter( region == "Mexico", is.na(subregion)) -> baja
+datatable( baja )
+```
+
+which as you can see is a dataframe of points to be connected into a single object.  We can plot it using normal approaches as:
+
+```{r}
+ggplot() + 
+  geom_polygon( aes(long,lat), fill="grey", data=baja ) + 
+  geom_point( aes(Longitude,Latitude), data=araptus ) + 
+  xlab("Longitude") + 
+  ylab("Latitude") + 
+  coord_map()
+```
+
+
+## Plotting `sf` Objects
+
+The `sf` library also has a bunch of built-in plotting routines.  If you plot a `sf` object, it will make a plot for each of the columns of the data in the object.  For example, the `araptus_sf` object has the following data associated with each point
+
+```{r}
+names(araptus_sf)
+```
+
+and as such will plot one graph for each column.
+
+```{r}
+plot(araptus_sf)
+```
+
+You can specify a single plot as (and set default values:
+
+```{r}
+plot( araptus_sf[4], main="Habitat Suitability", pch=16, axes=TRUE)
+```
+
+It is also possible to plot `sf` objects using `ggplot` as they supply appropriate `geom_` and `coord_` objects.
+
+```{r}
+ggplot() + 
+  geom_sf( data = araptus_sf, aes(size=Suitability) )  +
+  theme_void() +
+  coord_sf( datum=NA )
+```
+
+
+## Interactive Maps
+
+Since this document is in HTML, we can take advantage of interactive visualizations.  This is a good thing &copy;.  Here is an interactive leaflet map with each sampling locale designated by a circle whose radius is proportional to the habitat suitability of the host plant, all plot on the ESRI World Topo map.
+
+```{r}
+library(leaflet)
+leaflet(araptus) %>%
+  addProviderTiles( providers$Esri.WorldTopoMap) %>%
+  addCircleMarkers( radius = ~Suitability*10, color="green",label = ~Site)
+```
+
+We can even get a bit more fancy in making pie charts representing the numbrer of males and females in each population, scaled by the habitat suitability.
+
+
+```{r}
+library(leaflet.minicharts)
+
+leaflet() %>%
+  addProviderTiles( providers$Esri.WorldTopoMap) %>%
+  addMinicharts( 
+    araptus$Longitude, araptus$Latitude,
+    type = "pie",
+    chartdata = araptus[, c("Males","Females")],
+    width = araptus$Suitability*30
+    )
+```
+
+

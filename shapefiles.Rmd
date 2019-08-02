@@ -6,7 +6,6 @@ title: "Shapefiles"
 source("setup.R")
 ```
 
-## Impetus
 
 There is a lot of data contained in Shapefiles (ESRI formats) that we need to work with.  Here we look at how to load them in, how to plot them, and how to save them.
 

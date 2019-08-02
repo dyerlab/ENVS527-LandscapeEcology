@@ -1,0 +1,32 @@
+---
+title: "Projecting Points"
+---
+
+
+```{r setup, include=FALSE}
+source("setup.R")
+```
+
+
+Our points represent some locale(s) on the earth (or other exoplanet) and we need to them to identify and perhaps change the projection.  See the general discussion on [projections](projections.html) for more background.
+
+## The Data
+
+Here we will use the enigmatic *Araptus attenuata* data set as a raw `data.frame`
+
+```{r}
+library(scape)
+data("araptus")
+araptus_sf <- st_as_sf(araptus,coords = c("Longitude","Latitude"))
+araptus_sf
+```
+
+## Setting a CRS
+
+For R to understand what the coordinate data mean, they need to be specified in terms of a Coordinate Reference System.
+
+```{r}
+st_crs(araptus_sf) <- 3857
+araptus_sf
+```
+

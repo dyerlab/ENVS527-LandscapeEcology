@@ -1,0 +1,37 @@
+---
+title: "Distance Operations"
+---
+
+
+We need to measure distance between points.  
+
+## The Data
+
+Here we will use the enigmatic *Araptus attenuata* data set as `sf` objects.  See [point construction](points.html) for a discussion on the differences between `data.frame` and `sf` objects and [point projections](point_projection.html) for how to deal with different projections.
+
+```{r}
+library(sf)
+library(scape)
+data("araptus")
+araptus_sf <- st_as_sf(araptus,coords = c("Longitude","Latitude"))
+st_crs(araptus_sf) <- 3857
+araptus_sf
+```
+
+
+
+## Distance
+
+Measuring the distances 
+
+```{r}
+distances <- st_nearest_points( araptus_sf[29,], araptus_sf) 
+st_length( distances )
+```
+
+Notice that the distances here are in an odd unit. 
+```{r}
+distances <- st_nearest_points( araptus_sf[29,], araptus_sf) 
+st_length( distances )
+```
+

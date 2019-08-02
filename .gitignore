@@ -2,7 +2,10 @@
 .Rhistory
 .Rapp.history
 
-_site
+_site/
+/*.html
+docs/data
+docs/docs
 
 # Session Data files
 .RData

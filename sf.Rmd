@@ -6,19 +6,135 @@ title: "sf Objects"
 source("setup.R")
 ```
 
+We can keep geospatial data in numerical format in normal R structures quite easily.  However, there are some reasons we may want to adopt a slightly more sophisticated approach to dealing with our geospatial data.  There are several R packages out there for this and the one covered and used here is the `sf` (Simple Features) package.  There are several reasons for this, the most important of which is that it provides a nice interface to work with that integrates with other anlaytical tools.  
 
-### `sf` Object Properties
+## The Data
 
-An `sf` object is a fancy `data.frame` with extra propeties.  Here are all the recognized methods that you can use with these objects.
+Here is some pseudo-hypothetical data to illustrate the basics of the `sf` objects.
+
+```{r}
+coords <- matrix( c(-122.4787, 48.7519, 
+                    -90.1994, 38.6270, 
+                    -93.6319, 42.0308, 
+                    -77.4527, 37.5483 ),
+                  ncol=2, byrow = TRUE) 
+coords
+```
+
+## `sf` Objects
+
+There are three basic types of objects: simple feature geometries (`sfg`), simple features as columns (`sfc`), and plain simple features (`sf`).  Here is how we get to these.
+
+```{r}
+library(sf)
+```
+
+## Points
+
+Starting off with a point, we can define a 2-dimensional coordinate as (by default it is X then Y, so Longitude then Latitude):
+
+```{r}
+pt_bel <- st_point( coords[1,] )
+class(pt_bel)
+```
+
+Which is simultaneously a `POINT` object, with `XY` coordinates, and a Simple Feature Geometry object.  Point objects may also have a third coordinate (elevation) or a fourth (often used as precision).
+
+```{r}
+class( st_point( c(-122.4787, 48.7519,  89) ) )
+```
+
+## Lines
+
+Lines are a collection of coordinates. Here are the same points as before turned into a `LINESTRING` object.
+
+```{r}
+hp <- st_linestring( coords, dim="XY")
+st_as_text(hp)
+```
+
+which looks like this.
+
+```{r}
+plot(hp)
+```
+
+## Polygons
+
+A polygon is a line sequence whose first and last coordinate are the same.  We can specify them as a series of points (as above) or derive it from existing structrues.  Here is an example where we grab the convex hull (essentially the polygon that encloses all the points as if there was a rubber band stretched around them), using the `st_convex_hull` function on the `LINESTRING` object.
+
+```{r}
+poly <- st_convex_hull( hp )
+class(poly)
+```
+
+And can be turned into a polygon as:
+
+```{r}
+plot(poly)
+```
+
+## Collection of `sf` Objects.
+
+We can put a bunch of `sfg` objects into a list and make a collection.
+
+```{r}
+pt_stl <- st_point( coords[2,] )
+pt_ame <- st_point( coords[3,] )
+pt_rva <- st_point( coords[4,] )
+pts <- list(pt_bel, pt_stl, pt_ame, pt_rva)
+class(pts)
+```
+
+To make this a collection of `sf` objects we:
+
+```{r}
+pts <- st_as_sfc( pts )
+class(pts)
+pts
+```
+
+However, for completeness, this is really a collection of several points, and is probably more realistically appropriate to be turned into a `MULTIPOINT` object.  For all objects in `sf`, there are `MULTI` versions of them for when you have multiple copies.  To perform this coversion, we *cast* the object into a new type (also called coercing the object in the same way you can coerce an integer into a boolean in R).  Here is an easy way to do it.
+
+```{r}
+library(dplyr)
+pts %>% st_cast("MULTIPOINT") -> pts
+pts
+```
+
+There are specific rules associated with casting, for example the following fails 
+
+```{r warning=TRUE, message=TRUE}
+st_multipoint( rbind( c(1,2) ) ) %>% st_cast("POINT")
+```
+
+Each of the base types has an eqivallent `MULTI` version.
+
+
+## Other GEOMETRIES
+
+In addition to these, there are many other geometries available.  Most of these are combinations of the point, line, & polygon but are useful in specific situations.  These include `CIRCULARSTRING`, `COMPOUNDCURVE`, `CURVEPOLYGON`, `CURVE`, `MULTICURVE`, `SURFACE`, `MULTISURFACE`, `POLYHEDRALSURFACE`, `TIN`, and `TRIANGLE`.  For more information on these, see the [PostGIS manual](http://postgis.net/docs/using_postgis_dbmanagement.html). 
+ 
+
+## Methods on Objects
+
+There are several built-in methods assocaited with `sf` objects, just as there are for other things in R.  When you say `plot(x)`, the kind of thing that `x` is will determine what function is called.  While an `sf` object is a fancy `data.frame` with extra propeties, here are a list of recognized methods that you can use with these objects.
 
 ```{r}
 methods(class="sf")
 ```
 
-As you see, you can use the square braket and dollar sign notation just for `data.frames`
+As you see, you can use the square braket and dollar sign notation just for `data.frames`.  You should also notice several of the functions associated with `dplyr` (e.g., `distinct`, `filter`, `mutate`, `merge`, `sample`, `summarize`, etc.).  Then there is all those `st_` functions at the bottom.  These are what we call generic functions that operate on these objects and are what we use for geospatial analyses.  
+
+Look at the generics for `sfc`
 
 ```{r}
-structures <- st_read("data/structures.shp")
-box <- st_bbox(structures)
-box
+methods( class="sfc" )
 ```
+
+and `sfg`
+
+```{r}
+methods( class="sfg")
+```
+
