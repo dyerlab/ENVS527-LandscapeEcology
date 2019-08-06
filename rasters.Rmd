@@ -16,8 +16,6 @@ source("setup.R")
      \_| \_\__,_|___/\__\___|_|    |___/ \__,_|\__\__,_|
 ########################################################################  -->
 
-## Creating Rasters
-
 Rasters are a form of data that is georeferenced and (somewhat) continuous.  Raster data is perhaps best envisioned as a matrix of values, whose entries represent spatially referenced data points.  The raster itself can be visualized as you could for normal matrix output.  What makes a raster different, however, is that it is (or should be) georeferenced. This means that each element of the matrix represents some measurement on the ground having a specific location and spread.  This is analogous to an image, where if you zoom in on it enough, you will be able to differentiate between individual pixels, it is just that for rasters, each pixel has a spatial location and size associated with it that we can map onto the earth.
 
 You can either create raster objects *de novo* or you can acquire them from some external source.  To create one from scratch, you start with a matrix of values and then construct the raster object using the `raster()` function as:
@@ -37,4 +35,46 @@ plot(rnd)
 
 ## Loading Rasters
 
-Raster data can be 
+Raster data can be loaded from a variety of sources in a variety of formats.  For most cases, GeoTIFF and BIL formats are the most common.  Here is an example of an elevation model for Baja California that I pulled down from [WorldClim](https://worldclim.org).
+
+```{r}
+alt <- raster("data/alt_22.tif")
+alt
+```
+
+Notice it is 30\deg; spread (in latitude & longitude).  Lets crop it first before we go printing it out.
+
+```{r}
+e <- extent( c(-115,-109,22,30) )
+baja_california <- crop( alt, e )
+baja_california
+```
+
+Much better.  This is what it looks like in the raw.
+
+```{r}
+plot(baja_california)
+```
+
+
+## Manipulating Rasters
+
+Since rasters are basically just big matrices, you can manipulate them as you would a matrix.  Here I'm going to remove all the data whose elevation is < 500.
+
+```{r}
+bc <- baja_california
+bc[ bc < 500 ] <- NA
+plot( baja_california, legend=FALSE, col="darkgrey" )
+plot( bc, add=TRUE, legend=FALSE)
+```
+
+
+
+## Saving Rasters
+
+You can save any object in R as an *Rda object by using `save`.  You can also write rasters out to files in many formats that other applications are able to use.  For this, use the `writeRaster` function.  The formats supported by the raster package are extensive and include:
+
+```{r}
+raster::writeFormats()
+```
+
