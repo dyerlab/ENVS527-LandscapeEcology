@@ -494,6 +494,9 @@ div.tocify {
     <li>
       <a href="raster.html">Creating</a>
     </li>
+    <li>
+      <a href="rasters_categorical.html">Categorical Rasters</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -609,31 +612,32 @@ div.tocify {
 ##  [4] aggregate             anti_join             arrange              
 ##  [7] as.data.frame         cbind                 coerce               
 ## [10] dbDataType            dbWriteTable          distinct             
-## [13] filter                full_join             gather               
-## [16] group_by              group_map             group_split          
-## [19] identify              initialize            inner_join           
-## [22] left_join             merge                 mutate               
-## [25] nest                  plot                  print                
-## [28] rbind                 rename                right_join           
-## [31] sample_frac           sample_n              select               
-## [34] semi_join             separate              show                 
-## [37] slice                 slotsFromS3           spread               
-## [40] st_agr                st_agr&lt;-              st_area              
-## [43] st_as_sf              st_bbox               st_boundary          
-## [46] st_buffer             st_cast               st_centroid          
-## [49] st_collection_extract st_convex_hull        st_coordinates       
-## [52] st_crop               st_crs                st_crs&lt;-             
-## [55] st_difference         st_geometry           st_geometry&lt;-        
-## [58] st_interpolate_aw     st_intersection       st_intersects        
-## [61] st_is                 st_line_merge         st_nearest_points    
-## [64] st_node               st_normalize          st_point_on_surface  
-## [67] st_polygonize         st_precision          st_segmentize        
-## [70] st_set_precision      st_simplify           st_snap              
-## [73] st_sym_difference     st_transform          st_triangulate       
-## [76] st_union              st_voronoi            st_wrap_dateline     
-## [79] st_write              st_zm                 summarise            
-## [82] transmute             ungroup               unite                
-## [85] unnest               
+## [13] extent                extract               filter               
+## [16] full_join             gather                group_by             
+## [19] group_map             group_split           identify             
+## [22] initialize            inner_join            left_join            
+## [25] mask                  merge                 mutate               
+## [28] nest                  plot                  print                
+## [31] raster                rasterize             rbind                
+## [34] rename                right_join            sample_frac          
+## [37] sample_n              select                semi_join            
+## [40] separate              show                  slice                
+## [43] slotsFromS3           spread                st_agr               
+## [46] st_agr&lt;-              st_area               st_as_sf             
+## [49] st_bbox               st_boundary           st_buffer            
+## [52] st_cast               st_centroid           st_collection_extract
+## [55] st_convex_hull        st_coordinates        st_crop              
+## [58] st_crs                st_crs&lt;-              st_difference        
+## [61] st_geometry           st_geometry&lt;-         st_interpolate_aw    
+## [64] st_intersection       st_intersects         st_is                
+## [67] st_line_merge         st_nearest_points     st_node              
+## [70] st_normalize          st_point_on_surface   st_polygonize        
+## [73] st_precision          st_segmentize         st_set_precision     
+## [76] st_simplify           st_snap               st_sym_difference    
+## [79] st_transform          st_triangulate        st_union             
+## [82] st_voronoi            st_wrap_dateline      st_write             
+## [85] st_zm                 summarise             transmute            
+## [88] ungroup               unite                 unnest               
 ## see &#39;?methods&#39; for accessing help and source code</code></pre>
 <p>As you see, you can use the square braket and dollar sign notation just for <code>data.frames</code>. You should also notice several of the functions associated with <code>dplyr</code> (e.g., <code>distinct</code>, <code>filter</code>, <code>mutate</code>, <code>merge</code>, <code>sample</code>, <code>summarize</code>, etc.). Then there is all those <code>st_</code> functions at the bottom. These are what we call generic functions that operate on these objects and are what we use for geospatial analyses.</p>
 <p>Look at the generics for <code>sfc</code></p>

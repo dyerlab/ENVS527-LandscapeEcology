@@ -1,0 +1,102 @@
+---
+title: "Categorical Rasters"
+---
+
+```{r setup, include=FALSE}
+source("setup.R")
+```
+
+Rasters can contain either continuous (e.g., elevation) or categorical (e.g., habitat type) data---they are only fancy matrices after all.  Here is an example of how to set up a categorical raster with a Raster Attribute Table.
+
+
+## Example Data
+
+These data are from [github](https://github.com/dyerlab/DLab-Spatial).
+
+```{r}
+library(raster)
+pines <- raster("data/pines.asc")
+pines
+```
+
+This is a simple raster with two representations
+
+```{r}
+pines[1:20]
+```
+
+zeros everywhere there is no pines and the category 2 where the conifer canopy exists.
+
+```{r}
+plot(pines)
+```
+
+For completeness, I'll add a few more rasters.
+
+```{r}
+oaks <- raster("data/oaks.asc")
+shrubry <- raster("data/shrubs.asc")
+```
+
+## Defining Categories
+
+To begin, lets put these three together^[There will be overlap and we are going to pretend it is not an issue, this is a tutorial after all!].
+
+
+```{r}
+forest <- shrubry
+forest[ pines > 0 ] <- 2
+forest[ oaks > 0 ] <- 3
+hist(values(forest))
+```
+
+Here is what the actual data look like.
+
+```{r}
+forest[1:40]
+```
+
+And it is not a factor:
+
+```{r}
+is.factor( forest )
+```
+
+To categorize it, we need to both make it a factor:
+
+```{r}
+forest <- as.factor( forest )
+levels( forest )[[1]]
+```
+
+To make it more usable, we can define these categories on the raster using a Raster Attribute Table (RAT)
+
+```{r}
+forest <- ratify( forest )
+rat <- levels( forest )[[1]]
+rat$Landcover <- c("Open","Shrubry", "Pines","Oaks")
+levels( forest ) <- rat 
+forest
+```
+
+
+## Extracting Data
+
+Now we can play around with the levels a bit.  Here, lets summarize a locale by grabbing a point in the middle of the forest raster^[I know, the coordinate system is whack, but again, this is a tutorial].
+
+```{r}
+pt <- st_point( c(304402, 4133856) )
+st_as_text( pt )
+```
+
+
+then extract the 
+
+```{r}
+vals <- extract( forest, as(pt,"Spatial"), buffer=7 )[[1]]
+table( factorValues( forest, vals ) )
+```
+
+OK, so now, you have a categorical data raster and can play with it.
+
+

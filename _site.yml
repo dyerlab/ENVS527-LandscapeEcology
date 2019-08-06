@@ -34,6 +34,8 @@ navbar:
       menu:
         - text: "Creating"
           href: raster.html
+        - text: "Categorical Rasters"
+          href: rasters_categorical.html
 output:
   html_document:
     toc: true

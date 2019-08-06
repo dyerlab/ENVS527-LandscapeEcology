@@ -7,8 +7,34 @@ title: "Rasters"
 source("setup.R")
 ```
 
+<!-- ########################################################################
+     ______          _             ______      _        
+     | ___ \        | |            |  _  \    | |       
+     | |_/ /__ _ ___| |_ ___ _ __  | | | |__ _| |_ __ _ 
+     |    // _` / __| __/ _ \ '__| | | | / _` | __/ _` |
+     | |\ \ (_| \__ \ ||  __/ |    | |/ / (_| | || (_| |
+     \_| \_\__,_|___/\__\___|_|    |___/ \__,_|\__\__,_|
+########################################################################  -->
 
-```{r}
+## Creating Rasters
 
+Rasters are a form of data that is georeferenced and (somewhat) continuous.  Raster data is perhaps best envisioned as a matrix of values, whose entries represent spatially referenced data points.  The raster itself can be visualized as you could for normal matrix output.  What makes a raster different, however, is that it is (or should be) georeferenced. This means that each element of the matrix represents some measurement on the ground having a specific location and spread.  This is analogous to an image, where if you zoom in on it enough, you will be able to differentiate between individual pixels, it is just that for rasters, each pixel has a spatial location and size associated with it that we can map onto the earth.
+
+You can either create raster objects *de novo* or you can acquire them from some external source.  To create one from scratch, you start with a matrix of values and then construct the raster object using the `raster()` function as:
+
+```{r chunk-raster, message=FALSE,warning=FALSE}
+library(raster)
+r <- matrix(runif(10000),nrow=100)
+rnd <- raster( r )
+rnd
 ```
 
+which can be visualized using the normal plot command. The raster library has overridden several of the plotting functions and you can plot raster objects and decorate the images in the same way you do for normal plotting materials (\@ref(graphics)).
+
+```{r}
+plot(rnd)
+```
+
+## Loading Rasters
+
+Raster data can be 
