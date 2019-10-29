@@ -75,3 +75,6 @@ knitr::include_graphics("./images/Baja_Plot3D.png")
 
 The `zfac` option in the plot is the amount to scale the z-axis (elevation) in relation to the x-axis and y-axis dimensions.  It is a bit exaggerated at `zfac=0.1` but you get the idea.
 
+this is some new stuff
+
+
