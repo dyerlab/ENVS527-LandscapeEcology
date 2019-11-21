@@ -45,7 +45,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -157,7 +157,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -502,6 +501,18 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    WFS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="web_feature_services.html">Web Services</a>
+    </li>
+  </ul>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -520,10 +531,10 @@ div.tocify {
 <div id="the-data" class="section level2">
 <h2>The Data</h2>
 <p>Here we will use the enigmatic <em>Araptus attenuata</em> data set as a raw <code>data.frame</code></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(scape)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">data</span>(<span class="st">&quot;araptus&quot;</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3">araptus_sf &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(araptus,<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>))</a>
-<a class="sourceLine" id="cb1-4" title="4">araptus_sf</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(scape)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">data</span>(<span class="st">&quot;araptus&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">araptus_sf &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(araptus,<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>))</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">araptus_sf</a></code></pre></div>
 <pre><code>## Simple feature collection with 29 features and 4 fields
 ## geometry type:  POINT
 ## dimension:      XY
@@ -546,8 +557,8 @@ div.tocify {
 <div id="setting-a-crs" class="section level2">
 <h2>Setting a CRS</h2>
 <p>For R to understand what the coordinate data mean, they need to be specified in terms of a Coordinate Reference System.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">st_crs</span>(araptus_sf) &lt;-<span class="st"> </span><span class="dv">3857</span></a>
-<a class="sourceLine" id="cb3-2" title="2">araptus_sf</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">st_crs</span>(araptus_sf) &lt;-<span class="st"> </span><span class="dv">3857</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">araptus_sf</a></code></pre></div>
 <pre><code>## Simple feature collection with 29 features and 4 fields
 ## geometry type:  POINT
 ## dimension:      XY

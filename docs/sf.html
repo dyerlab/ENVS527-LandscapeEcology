@@ -45,7 +45,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -157,7 +157,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -502,6 +501,18 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    WFS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="web_feature_services.html">Web Services</a>
+    </li>
+  </ul>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -520,12 +531,12 @@ div.tocify {
 <div id="the-data" class="section level2">
 <h2>The Data</h2>
 <p>Here is some pseudo-hypothetical data to illustrate the basics of the <code>sf</code> objects.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">coords &lt;-<span class="st"> </span><span class="kw">matrix</span>( <span class="kw">c</span>(<span class="op">-</span><span class="fl">122.4787</span>, <span class="fl">48.7519</span>, </a>
-<a class="sourceLine" id="cb1-2" title="2">                    <span class="fl">-90.1994</span>, <span class="fl">38.6270</span>, </a>
-<a class="sourceLine" id="cb1-3" title="3">                    <span class="fl">-93.6319</span>, <span class="fl">42.0308</span>, </a>
-<a class="sourceLine" id="cb1-4" title="4">                    <span class="fl">-77.4527</span>, <span class="fl">37.5483</span> ),</a>
-<a class="sourceLine" id="cb1-5" title="5">                  <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) </a>
-<a class="sourceLine" id="cb1-6" title="6">coords</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">coords &lt;-<span class="st"> </span><span class="kw">matrix</span>( <span class="kw">c</span>(<span class="op">-</span><span class="fl">122.4787</span>, <span class="fl">48.7519</span>, </a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">                    <span class="fl">-90.1994</span>, <span class="fl">38.6270</span>, </a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">                    <span class="fl">-93.6319</span>, <span class="fl">42.0308</span>, </a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">                    <span class="fl">-77.4527</span>, <span class="fl">37.5483</span> ),</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">                  <span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) </a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">coords</a></code></pre></div>
 <pre><code>##           [,1]    [,2]
 ## [1,] -122.4787 48.7519
 ## [2,]  -90.1994 38.6270
@@ -535,52 +546,52 @@ div.tocify {
 <div id="sf-objects" class="section level2">
 <h2><code>sf</code> Objects</h2>
 <p>There are three basic types of objects: simple feature geometries (<code>sfg</code>), simple features as columns (<code>sfc</code>), and plain simple features (<code>sf</code>). Here is how we get to these.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(sf)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(sf)</a></code></pre></div>
 </div>
 <div id="points" class="section level2">
 <h2>Points</h2>
 <p>Starting off with a point, we can define a 2-dimensional coordinate as (by default it is X then Y, so Longitude then Latitude):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">pt_bel &lt;-<span class="st"> </span><span class="kw">st_point</span>( coords[<span class="dv">1</span>,] )</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">class</span>(pt_bel)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">pt_bel &lt;-<span class="st"> </span><span class="kw">st_point</span>( coords[<span class="dv">1</span>,] )</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">class</span>(pt_bel)</a></code></pre></div>
 <pre><code>## [1] &quot;XY&quot;    &quot;POINT&quot; &quot;sfg&quot;</code></pre>
 <p>Which is simultaneously a <code>POINT</code> object, with <code>XY</code> coordinates, and a Simple Feature Geometry object. Point objects may also have a third coordinate (elevation) or a fourth (often used as precision).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">class</span>( <span class="kw">st_point</span>( <span class="kw">c</span>(<span class="op">-</span><span class="fl">122.4787</span>, <span class="fl">48.7519</span>,  <span class="dv">89</span>) ) )</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">class</span>( <span class="kw">st_point</span>( <span class="kw">c</span>(<span class="op">-</span><span class="fl">122.4787</span>, <span class="fl">48.7519</span>,  <span class="dv">89</span>) ) )</a></code></pre></div>
 <pre><code>## [1] &quot;XYZ&quot;   &quot;POINT&quot; &quot;sfg&quot;</code></pre>
 </div>
 <div id="lines" class="section level2">
 <h2>Lines</h2>
 <p>Lines are a collection of coordinates. Here are the same points as before turned into a <code>LINESTRING</code> object.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">hp &lt;-<span class="st"> </span><span class="kw">st_linestring</span>( coords, <span class="dt">dim=</span><span class="st">&quot;XY&quot;</span>)</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw">st_as_text</span>(hp)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">hp &lt;-<span class="st"> </span><span class="kw">st_linestring</span>( coords, <span class="dt">dim=</span><span class="st">&quot;XY&quot;</span>)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">st_as_text</span>(hp)</a></code></pre></div>
 <pre><code>## [1] &quot;LINESTRING (-122.4787 48.7519, -90.1994 38.627, -93.6319 42.0308, -77.4527 37.5483)&quot;</code></pre>
 <p>which looks like this.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">plot</span>(hp)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot</span>(hp)</a></code></pre></div>
 <p><img src="sf_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="polygons" class="section level2">
 <h2>Polygons</h2>
 <p>A polygon is a line sequence whose first and last coordinate are the same. We can specify them as a series of points (as above) or derive it from existing structrues. Here is an example where we grab the convex hull (essentially the polygon that encloses all the points as if there was a rubber band stretched around them), using the <code>st_convex_hull</code> function on the <code>LINESTRING</code> object.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">poly &lt;-<span class="st"> </span><span class="kw">st_convex_hull</span>( hp )</a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="kw">class</span>(poly)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">poly &lt;-<span class="st"> </span><span class="kw">st_convex_hull</span>( hp )</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">class</span>(poly)</a></code></pre></div>
 <pre><code>## [1] &quot;XY&quot;      &quot;POLYGON&quot; &quot;sfg&quot;</code></pre>
 <p>And can be turned into a polygon as:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">plot</span>(poly)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">plot</span>(poly)</a></code></pre></div>
 <p><img src="sf_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="collection-of-sf-objects." class="section level2">
 <h2>Collection of <code>sf</code> Objects.</h2>
 <p>We can put a bunch of <code>sfg</code> objects into a list and make a collection.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">pt_stl &lt;-<span class="st"> </span><span class="kw">st_point</span>( coords[<span class="dv">2</span>,] )</a>
-<a class="sourceLine" id="cb14-2" title="2">pt_ame &lt;-<span class="st"> </span><span class="kw">st_point</span>( coords[<span class="dv">3</span>,] )</a>
-<a class="sourceLine" id="cb14-3" title="3">pt_rva &lt;-<span class="st"> </span><span class="kw">st_point</span>( coords[<span class="dv">4</span>,] )</a>
-<a class="sourceLine" id="cb14-4" title="4">pts &lt;-<span class="st"> </span><span class="kw">list</span>(pt_bel, pt_stl, pt_ame, pt_rva)</a>
-<a class="sourceLine" id="cb14-5" title="5"><span class="kw">class</span>(pts)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">pt_stl &lt;-<span class="st"> </span><span class="kw">st_point</span>( coords[<span class="dv">2</span>,] )</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">pt_ame &lt;-<span class="st"> </span><span class="kw">st_point</span>( coords[<span class="dv">3</span>,] )</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">pt_rva &lt;-<span class="st"> </span><span class="kw">st_point</span>( coords[<span class="dv">4</span>,] )</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">pts &lt;-<span class="st"> </span><span class="kw">list</span>(pt_bel, pt_stl, pt_ame, pt_rva)</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw">class</span>(pts)</a></code></pre></div>
 <pre><code>## [1] &quot;list&quot;</code></pre>
 <p>To make this a collection of <code>sf</code> objects we:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">pts &lt;-<span class="st"> </span><span class="kw">st_as_sfc</span>( pts )</a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="kw">class</span>(pts)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">pts &lt;-<span class="st"> </span><span class="kw">st_as_sfc</span>( pts )</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">class</span>(pts)</a></code></pre></div>
 <pre><code>## [1] &quot;sfc_POINT&quot; &quot;sfc&quot;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">pts</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">pts</a></code></pre></div>
 <pre><code>## Geometry set for 4 features 
 ## geometry type:  POINT
 ## dimension:      XY
@@ -588,9 +599,9 @@ div.tocify {
 ## epsg (SRID):    NA
 ## proj4string:    NA</code></pre>
 <p>However, for completeness, this is really a collection of several points, and is probably more realistically appropriate to be turned into a <code>MULTIPOINT</code> object. For all objects in <code>sf</code>, there are <code>MULTI</code> versions of them for when you have multiple copies. To perform this coversion, we <em>cast</em> the object into a new type (also called coercing the object in the same way you can coerce an integer into a boolean in R). Here is an easy way to do it.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb20-2" title="2">pts <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_cast</span>(<span class="st">&quot;MULTIPOINT&quot;</span>) -&gt;<span class="st"> </span>pts</a>
-<a class="sourceLine" id="cb20-3" title="3">pts</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">pts <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_cast</span>(<span class="st">&quot;MULTIPOINT&quot;</span>) -&gt;<span class="st"> </span>pts</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">pts</a></code></pre></div>
 <pre><code>## Geometry set for 4 features 
 ## geometry type:  MULTIPOINT
 ## dimension:      XY
@@ -598,7 +609,7 @@ div.tocify {
 ## epsg (SRID):    NA
 ## proj4string:    NA</code></pre>
 <p>There are specific rules associated with casting, for example the following fails</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">st_multipoint</span>( <span class="kw">rbind</span>( <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>) ) ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_cast</span>(<span class="st">&quot;POINT&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">st_multipoint</span>( <span class="kw">rbind</span>( <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>) ) ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_cast</span>(<span class="st">&quot;POINT&quot;</span>)</a></code></pre></div>
 <pre><code>## Warning in st_cast.MULTIPOINT(., &quot;POINT&quot;): point from first coordinate only</code></pre>
 <pre><code>## POINT (1 2)</code></pre>
 <p>Each of the base types has an eqivallent <code>MULTI</code> version.</p>
@@ -610,7 +621,7 @@ div.tocify {
 <div id="methods-on-objects" class="section level2">
 <h2>Methods on Objects</h2>
 <p>There are several built-in methods assocaited with <code>sf</code> objects, just as there are for other things in R. When you say <code>plot(x)</code>, the kind of thing that <code>x</code> is will determine what function is called. While an <code>sf</code> object is a fancy <code>data.frame</code> with extra propeties, here are a list of recognized methods that you can use with these objects.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">methods</span>(<span class="dt">class=</span><span class="st">&quot;sf&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">methods</span>(<span class="dt">class=</span><span class="st">&quot;sf&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] [                     [[&lt;-                  $&lt;-                  
 ##  [4] aggregate             anti_join             arrange              
 ##  [7] as.data.frame         cbind                 coerce               
@@ -624,50 +635,51 @@ div.tocify {
 ## [31] raster                rasterize             rbind                
 ## [34] rename                right_join            sample_frac          
 ## [37] sample_n              select                semi_join            
-## [40] separate              show                  slice                
-## [43] slotsFromS3           spread                st_agr               
-## [46] st_agr&lt;-              st_area               st_as_sf             
-## [49] st_bbox               st_boundary           st_buffer            
-## [52] st_cast               st_centroid           st_collection_extract
-## [55] st_convex_hull        st_coordinates        st_crop              
-## [58] st_crs                st_crs&lt;-              st_difference        
-## [61] st_geometry           st_geometry&lt;-         st_interpolate_aw    
-## [64] st_intersection       st_intersects         st_is                
-## [67] st_line_merge         st_nearest_points     st_node              
-## [70] st_normalize          st_point_on_surface   st_polygonize        
-## [73] st_precision          st_segmentize         st_set_precision     
-## [76] st_simplify           st_snap               st_sym_difference    
-## [79] st_transform          st_triangulate        st_union             
-## [82] st_voronoi            st_wrap_dateline      st_write             
-## [85] st_zm                 summarise             transmute            
-## [88] ungroup               unite                 unnest               
+## [40] separate_rows         separate              show                 
+## [43] slice                 slotsFromS3           spread               
+## [46] st_agr                st_agr&lt;-              st_area              
+## [49] st_as_sf              st_bbox               st_boundary          
+## [52] st_buffer             st_cast               st_centroid          
+## [55] st_collection_extract st_convex_hull        st_coordinates       
+## [58] st_crop               st_crs                st_crs&lt;-             
+## [61] st_difference         st_geometry           st_geometry&lt;-        
+## [64] st_interpolate_aw     st_intersection       st_intersects        
+## [67] st_is                 st_join               st_line_merge        
+## [70] st_nearest_points     st_node               st_normalize         
+## [73] st_point_on_surface   st_polygonize         st_precision         
+## [76] st_segmentize         st_set_precision      st_simplify          
+## [79] st_snap               st_sym_difference     st_transform         
+## [82] st_triangulate        st_union              st_voronoi           
+## [85] st_wrap_dateline      st_write              st_zm                
+## [88] summarise             transmute             ungroup              
+## [91] unite                 unnest               
 ## see &#39;?methods&#39; for accessing help and source code</code></pre>
 <p>As you see, you can use the square braket and dollar sign notation just for <code>data.frames</code>. You should also notice several of the functions associated with <code>dplyr</code> (e.g., <code>distinct</code>, <code>filter</code>, <code>mutate</code>, <code>merge</code>, <code>sample</code>, <code>summarize</code>, etc.). Then there is all those <code>st_</code> functions at the bottom. These are what we call generic functions that operate on these objects and are what we use for geospatial analyses.</p>
 <p>Look at the generics for <code>sfc</code></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">methods</span>( <span class="dt">class=</span><span class="st">&quot;sfc&quot;</span> )</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">methods</span>( <span class="dt">class=</span><span class="st">&quot;sfc&quot;</span> )</a></code></pre></div>
 <pre><code>##  [1] [                     [&lt;-                   as.data.frame        
 ##  [4] c                     coerce                format               
 ##  [7] fortify               identify              initialize           
 ## [10] obj_sum               Ops                   print                
 ## [13] rep                   scale_type            show                 
 ## [16] slotsFromS3           st_area               st_as_binary         
-## [19] st_as_grob            st_as_text            st_bbox              
-## [22] st_boundary           st_buffer             st_cast              
-## [25] st_centroid           st_collection_extract st_convex_hull       
-## [28] st_coordinates        st_crop               st_crs               
-## [31] st_crs&lt;-              st_difference         st_geometry          
-## [34] st_intersection       st_intersects         st_is                
-## [37] st_line_merge         st_nearest_points     st_node              
-## [40] st_normalize          st_point_on_surface   st_polygonize        
-## [43] st_precision          st_segmentize         st_set_precision     
-## [46] st_simplify           st_snap               st_sym_difference    
-## [49] st_transform          st_triangulate        st_union             
-## [52] st_voronoi            st_wrap_dateline      st_write             
-## [55] st_zm                 str                   summary              
-## [58] type_sum             
+## [19] st_as_grob            st_as_sf              st_as_text           
+## [22] st_bbox               st_boundary           st_buffer            
+## [25] st_cast               st_centroid           st_collection_extract
+## [28] st_convex_hull        st_coordinates        st_crop              
+## [31] st_crs                st_crs&lt;-              st_difference        
+## [34] st_geometry           st_intersection       st_intersects        
+## [37] st_is                 st_line_merge         st_nearest_points    
+## [40] st_node               st_normalize          st_point_on_surface  
+## [43] st_polygonize         st_precision          st_segmentize        
+## [46] st_set_precision      st_simplify           st_snap              
+## [49] st_sym_difference     st_transform          st_triangulate       
+## [52] st_union              st_voronoi            st_wrap_dateline     
+## [55] st_write              st_zm                 str                  
+## [58] summary               type_sum             
 ## see &#39;?methods&#39; for accessing help and source code</code></pre>
 <p>and <code>sfg</code></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">methods</span>( <span class="dt">class=</span><span class="st">&quot;sfg&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">methods</span>( <span class="dt">class=</span><span class="st">&quot;sfg&quot;</span>)</a></code></pre></div>
 <pre><code>##  [1] as.matrix             c                     coerce               
 ##  [4] format                fortify               head                 
 ##  [7] initialize            Ops                   plot                 

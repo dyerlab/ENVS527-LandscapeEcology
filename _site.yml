@@ -38,6 +38,10 @@ navbar:
           href: rasters_categorical.html
         - text: "Plotting"
           href: rasters_plotting.html
+    - text: "WFS"
+      menu:
+        - text: "Web Services"
+          href: web_feature_services.html
 output:
   html_document:
     toc: true

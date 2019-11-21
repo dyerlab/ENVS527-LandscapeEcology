@@ -1,0 +1,73 @@
+---
+title: "Geographic Web Services"
+author: "R.J. Dyer"
+date: "11/21/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+source("setup.R")
+```
+
+
+The Open Geospatial Consortium (OGC) has created a number of open specifications for web services including web feature services (WFS), web map services (WMS), Web Map Tile Service (WMTS), web coverage services (WCS), and web processing services (WPS).  On this page, we will look at how to start working with these functions.
+
+```{r}
+library(httr)
+url <- "https://shiny1.envs.vcu.edu/geoserver/wfs"
+
+q <- list( request = "GetCapabilities" )
+res <- GET( url = url,
+            query = q )
+
+res
+```
+
+
+If we need to, we can look at the response as an XML format
+
+```{r}
+library(xml2)
+txt <- content( res, "text" )
+xml <- read_xml(  txt )
+xml
+```
+
+## Grabing a Feature
+
+On this server, there exists a feature called `bio7` in the `baja` workspace.  It is a raster image.  We can grab that directly from the server as:
+
+```{r}
+library(sf)
+
+query <- list( request="GetFeature",
+               typeName = "topp:states" )
+file <- tempfile(fileext=".gml")
+httr::GET( url=url, 
+           query = query, 
+           httr::write_disk(file) )
+states <- read_sf( file )
+```
+
+then we can translate it into an sf object with the following attributes.
+
+```{r}
+class(states)
+names(states)
+print( states, n=3)
+```
+
+The geom feature scolumn is:
+
+```{r}
+attr( states, "sf_column")
+```
+
+
+And we can plot it as:
+
+```{r}
+library(ggplot2)
+ggplot() + geom_sf( data=states, aes(fill=P_MALE))
+```
+

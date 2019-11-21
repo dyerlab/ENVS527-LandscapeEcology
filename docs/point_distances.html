@@ -45,7 +45,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -157,7 +157,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -502,6 +501,18 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    WFS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="web_feature_services.html">Web Services</a>
+    </li>
+  </ul>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -520,12 +531,12 @@ div.tocify {
 <div id="the-data" class="section level2">
 <h2>The Data</h2>
 <p>Here we will use the enigmatic <em>Araptus attenuata</em> data set as <code>sf</code> objects. See <a href="points.html">point construction</a> for a discussion on the differences between <code>data.frame</code> and <code>sf</code> objects and <a href="point_projection.html">point projections</a> for how to deal with different projections.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(scape)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">data</span>(<span class="st">&quot;araptus&quot;</span>)</a>
-<a class="sourceLine" id="cb1-4" title="4">araptus_sf &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(araptus,<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>))</a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">st_crs</span>(araptus_sf) &lt;-<span class="st"> </span><span class="dv">3857</span></a>
-<a class="sourceLine" id="cb1-6" title="6">araptus_sf</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(scape)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">data</span>(<span class="st">&quot;araptus&quot;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">araptus_sf &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(araptus,<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>))</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">st_crs</span>(araptus_sf) &lt;-<span class="st"> </span><span class="dv">3857</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">araptus_sf</a></code></pre></div>
 <pre><code>## Simple feature collection with 29 features and 4 fields
 ## geometry type:  POINT
 ## dimension:      XY
@@ -548,8 +559,8 @@ div.tocify {
 <div id="distance" class="section level2">
 <h2>Distance</h2>
 <p>Measuring the distances</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">distances &lt;-<span class="st"> </span><span class="kw">st_nearest_points</span>( araptus_sf[<span class="dv">29</span>,], araptus_sf) </a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw">st_length</span>( distances )</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">distances &lt;-<span class="st"> </span><span class="kw">st_nearest_points</span>( araptus_sf[<span class="dv">29</span>,], araptus_sf) </a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">st_length</span>( distances )</a></code></pre></div>
 <pre><code>## Units: [m]
 ##  [1] 2.3741217 1.5046721 1.8718088 2.9944781 2.5290427 2.4014298 2.2981315
 ##  [8] 1.0887930 0.9775184 0.7035419 3.5358992 3.5885231 4.1240004 4.3110594
@@ -557,8 +568,8 @@ div.tocify {
 ## [22] 0.9944142 4.4169443 5.0351570 3.4708668 4.5903515 1.9567086 2.3434902
 ## [29] 0.0000000</code></pre>
 <p>Notice that the distances here are in an odd unit.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">distances &lt;-<span class="st"> </span><span class="kw">st_nearest_points</span>( araptus_sf[<span class="dv">29</span>,], araptus_sf) </a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">st_length</span>( distances )</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">distances &lt;-<span class="st"> </span><span class="kw">st_nearest_points</span>( araptus_sf[<span class="dv">29</span>,], araptus_sf) </a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">st_length</span>( distances )</a></code></pre></div>
 <pre><code>## Units: [m]
 ##  [1] 2.3741217 1.5046721 1.8718088 2.9944781 2.5290427 2.4014298 2.2981315
 ##  [8] 1.0887930 0.9775184 0.7035419 3.5358992 3.5885231 4.1240004 4.3110594

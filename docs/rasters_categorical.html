@@ -45,7 +45,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -157,7 +157,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -502,6 +501,18 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    WFS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="web_feature_services.html">Web Services</a>
+    </li>
+  </ul>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -520,9 +531,9 @@ div.tocify {
 <div id="example-data" class="section level2">
 <h2>Example Data</h2>
 <p>These data are from <a href="https://github.com/dyerlab/DLab-Spatial">github</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(raster)</a>
-<a class="sourceLine" id="cb1-2" title="2">pines &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/pines.asc&quot;</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3">pines</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">pines &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/pines.asc&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">pines</a></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 246, 138, 33948  (nrow, ncol, ncell)
 ## resolution : 4, 4  (x, y)
@@ -531,44 +542,44 @@ div.tocify {
 ## source     : /Users/rodney/Desktop/DLab-Spatial/data/pines.asc 
 ## names      : pines</code></pre>
 <p>This is a simple raster with two representations</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">pines[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">pines[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>]</a></code></pre></div>
 <pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0</code></pre>
 <p>zeros everywhere there is no pines and the category 2 where the conifer canopy exists.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">plot</span>(pines)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">plot</span>(pines)</a></code></pre></div>
 <p><img src="rasters_categorical_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>For completeness, I’ll add a few more rasters.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">oaks &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/oaks.asc&quot;</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2">shrubry &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/shrubs.asc&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">oaks &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/oaks.asc&quot;</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">shrubry &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="st">&quot;data/shrubs.asc&quot;</span>)</a></code></pre></div>
 </div>
 <div id="defining-categories" class="section level2">
 <h2>Defining Categories</h2>
 <p>To begin, lets put these three together<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">forest &lt;-<span class="st"> </span>shrubry</a>
-<a class="sourceLine" id="cb7-2" title="2">forest[ pines <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> ] &lt;-<span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb7-3" title="3">forest[ oaks <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> ] &lt;-<span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="kw">hist</span>(<span class="kw">values</span>(forest))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">forest &lt;-<span class="st"> </span>shrubry</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">forest[ pines <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> ] &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">forest[ oaks <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> ] &lt;-<span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">hist</span>(<span class="kw">values</span>(forest))</a></code></pre></div>
 <p><img src="rasters_categorical_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Here is what the actual data look like.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">forest[<span class="dv">1</span><span class="op">:</span><span class="dv">40</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">forest[<span class="dv">1</span><span class="op">:</span><span class="dv">40</span>]</a></code></pre></div>
 <pre><code>##  [1] 0 0 0 0 0 0 0 0 0 0 0 0 3 1 2 0 0 0 0 0 0 0 0 3 3 3 0 1 3 0 2 0 1 1 1
 ## [36] 1 1 0 3 3</code></pre>
 <p>And it is not a factor:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">is.factor</span>( forest )</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">is.factor</span>( forest )</a></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <p>To categorize it, we need to both make it a factor:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">forest &lt;-<span class="st"> </span><span class="kw">as.factor</span>( forest )</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="kw">levels</span>( forest )[[<span class="dv">1</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">forest &lt;-<span class="st"> </span><span class="kw">as.factor</span>( forest )</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">levels</span>( forest )[[<span class="dv">1</span>]]</a></code></pre></div>
 <pre><code>##   ID
 ## 1  0
 ## 2  1
 ## 3  2
 ## 4  3</code></pre>
 <p>To make it more usable, we can define these categories on the raster using a Raster Attribute Table (RAT)</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">forest &lt;-<span class="st"> </span><span class="kw">ratify</span>( forest )</a>
-<a class="sourceLine" id="cb14-2" title="2">rat &lt;-<span class="st"> </span><span class="kw">levels</span>( forest )[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb14-3" title="3">rat<span class="op">$</span>Landcover &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Open&quot;</span>,<span class="st">&quot;Shrubry&quot;</span>, <span class="st">&quot;Pines&quot;</span>,<span class="st">&quot;Oaks&quot;</span>)</a>
-<a class="sourceLine" id="cb14-4" title="4"><span class="kw">levels</span>( forest ) &lt;-<span class="st"> </span>rat </a>
-<a class="sourceLine" id="cb14-5" title="5">forest</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">forest &lt;-<span class="st"> </span><span class="kw">ratify</span>( forest )</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">rat &lt;-<span class="st"> </span><span class="kw">levels</span>( forest )[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">rat<span class="op">$</span>Landcover &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Open&quot;</span>,<span class="st">&quot;Shrubry&quot;</span>, <span class="st">&quot;Pines&quot;</span>,<span class="st">&quot;Oaks&quot;</span>)</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="kw">levels</span>( forest ) &lt;-<span class="st"> </span>rat </a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">forest</a></code></pre></div>
 <pre><code>## class      : RasterLayer 
 ## dimensions : 246, 138, 33948  (nrow, ncol, ncell)
 ## resolution : 4, 4  (x, y)
@@ -587,12 +598,12 @@ div.tocify {
 <div id="extracting-data" class="section level2">
 <h2>Extracting Data</h2>
 <p>Now we can play around with the levels a bit. Here, lets summarize a locale by grabbing a point in the middle of the forest raster<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">pt &lt;-<span class="st"> </span><span class="kw">st_point</span>( <span class="kw">c</span>(<span class="dv">304402</span>, <span class="dv">4133856</span>) )</a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="kw">st_as_text</span>( pt )</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">pt &lt;-<span class="st"> </span><span class="kw">st_point</span>( <span class="kw">c</span>(<span class="dv">304402</span>, <span class="dv">4133856</span>) )</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">st_as_text</span>( pt )</a></code></pre></div>
 <pre><code>## [1] &quot;POINT (304402 4133856)&quot;</code></pre>
 <p>then extract the</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">vals &lt;-<span class="st"> </span><span class="kw">extract</span>( forest, <span class="kw">as</span>(pt,<span class="st">&quot;Spatial&quot;</span>), <span class="dt">buffer=</span><span class="dv">7</span> )[[<span class="dv">1</span>]]</a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="kw">table</span>( <span class="kw">factorValues</span>( forest, vals ) )</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">vals &lt;-<span class="st"> </span><span class="kw">extract</span>( forest, <span class="kw">as</span>(pt,<span class="st">&quot;Spatial&quot;</span>), <span class="dt">buffer=</span><span class="dv">7</span> )[[<span class="dv">1</span>]]</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">table</span>( <span class="kw">factorValues</span>( forest, vals ) )</a></code></pre></div>
 <pre><code>## 
 ##  Oaks  Open Pines 
 ##     4     2     6</code></pre>

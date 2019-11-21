@@ -45,7 +45,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -157,7 +157,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -502,6 +501,18 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    WFS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="web_feature_services.html">Web Services</a>
+    </li>
+  </ul>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -543,12 +554,12 @@ div.tocify {
 <div id="equatorial-projections" class="section level2">
 <h2>Equatorial Projections</h2>
 <p>These are projections centered on the Prime Meridian (<code>Longitude=0</code>)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(maps)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)) <span class="co"># makes 2x2 grid of images with no margin</span></a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;mercator&quot;</span>,<span class="dt">main=</span><span class="st">&quot;mercator&quot;</span>)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;mollweide&quot;</span>, <span class="dt">main=</span><span class="st">&quot;mollweide&quot;</span>)</a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;gilbert&quot;</span>, <span class="dt">main=</span><span class="st">&quot;gilbert&quot;</span>)</a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;cylequalarea&quot;</span>,<span class="dt">par=</span><span class="fl">39.83</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(maps)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)) <span class="co"># makes 2x2 grid of images with no margin</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;mercator&quot;</span>,<span class="dt">main=</span><span class="st">&quot;mercator&quot;</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;mollweide&quot;</span>, <span class="dt">main=</span><span class="st">&quot;mollweide&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;gilbert&quot;</span>, <span class="dt">main=</span><span class="st">&quot;gilbert&quot;</span>)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;cylequalarea&quot;</span>,<span class="dt">par=</span><span class="fl">39.83</span>)</a></code></pre></div>
 <div class="figure">
 <img src="projections_files/figure-html/projections1-1.png" alt="Mercator, Mollweide, and Gilbert equatorial projections along with a cylequalarea projection centered on the middle of the US." width="672" />
 <p class="caption">
@@ -559,11 +570,11 @@ Mercator, Mollweide, and Gilbert equatorial projections along with a cylequalare
 <div id="azimuth-projections" class="section level2">
 <h2>Azimuth Projections</h2>
 <p>These projections are centered on the North Pole with parallels making concentric circles. Meridians are equally spaced radial lines.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;orthographic&quot;</span>)</a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;orthographic&quot;</span>)</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;perspective&quot;</span>, <span class="dt">param=</span><span class="dv">8</span>)</a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;gnomonic&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;orthographic&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;orthographic&quot;</span>)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;perspective&quot;</span>, <span class="dt">param=</span><span class="dv">8</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;gnomonic&quot;</span>)</a></code></pre></div>
 <div class="figure">
 <img src="projections_files/figure-html/unnamed-chunk-1-1.png" alt="Orthographic, stereographic, perspective, and gnomonic projections." width="672" />
 <p class="caption">
@@ -574,9 +585,9 @@ Orthographic, stereographic, perspective, and gnomonic projections.
 <div id="polar-conic-projections" class="section level2">
 <h2>Polar Conic Projections</h2>
 <p>Here projections are symmetric around the Prime Meridian with parallel as segments of concentric circles with meridians being equally spaced.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;conic&quot;</span>,<span class="dt">par=</span><span class="fl">39.83</span>)</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;lambert&quot;</span>,<span class="dt">par=</span><span class="kw">c</span>(<span class="dv">30</span>,<span class="dv">40</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;conic&quot;</span>,<span class="dt">par=</span><span class="fl">39.83</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;lambert&quot;</span>,<span class="dt">par=</span><span class="kw">c</span>(<span class="dv">30</span>,<span class="dv">40</span>))</a></code></pre></div>
 <div class="figure">
 <img src="projections_files/figure-html/unnamed-chunk-2-1.png" alt="Conic and Lambert projections." width="672" />
 <p class="caption">
@@ -587,11 +598,11 @@ Conic and Lambert projections.
 <div id="miscellaneous-projections" class="section level2">
 <h2>Miscellaneous Projections</h2>
 <p>These are some additional miscellaneous projections, provided for fun mostly, to show some more diversity in the ways we have come up with mapping points onto 2-dimensional displays.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;square&quot;</span>)</a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;hex&quot;</span>)</a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;bicentric&quot;</span>, <span class="dt">par=</span><span class="op">-</span><span class="dv">98</span>)</a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;guyou&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;square&quot;</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;hex&quot;</span>)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;bicentric&quot;</span>, <span class="dt">par=</span><span class="op">-</span><span class="dv">98</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">map</span>(<span class="st">&quot;state&quot;</span>,<span class="dt">proj=</span><span class="st">&quot;guyou&quot;</span>)</a></code></pre></div>
 <div class="figure">
 <img src="projections_files/figure-html/unnamed-chunk-3-1.png" alt="Miscellaneous projections (Square, hex, bicentric, and Guyou) highlighting some of the more excentric ways of displaying data." width="672" />
 <p class="caption">
@@ -602,8 +613,8 @@ Miscellaneous projections (Square, hex, bicentric, and Guyou) highlighting some 
 <div id="ggplot2-plotting" class="section level2">
 <h2><code>ggplot2</code> Plotting</h2>
 <p>In addition to plotting routines from the <code>map</code> library, <code>ggplot2</code> also includes the ability to define specific projections. Internally, the map object is just a <code>data.frame</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">us &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">summary</span>(us)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">us &lt;-<span class="st"> </span><span class="kw">map_data</span>(<span class="st">&quot;state&quot;</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">summary</span>(us)</a></code></pre></div>
 <pre><code>##       long              lat            group           order      
 ##  Min.   :-124.68   Min.   :25.13   Min.   : 1.00   Min.   :    1  
 ##  1st Qu.: -96.22   1st Qu.:33.91   1st Qu.:15.00   1st Qu.: 3899  
@@ -618,16 +629,16 @@ Miscellaneous projections (Square, hex, bicentric, and Guyou) highlighting some 
 ##                                       
 ##                                       
 ## </code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb7-2" title="2">us_map &lt;-<span class="st"> </span><span class="kw">ggplot</span>( us, <span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y =</span> lat, <span class="dt">group=</span>group) ) <span class="op">+</span><span class="st"> </span><span class="kw">geom_polygon</span>( <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>)</a>
-<a class="sourceLine" id="cb7-3" title="3">us_map</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">us_map &lt;-<span class="st"> </span><span class="kw">ggplot</span>( us, <span class="kw">aes</span>(<span class="dt">x=</span>long, <span class="dt">y =</span> lat, <span class="dt">group=</span>group) ) <span class="op">+</span><span class="st"> </span><span class="kw">geom_polygon</span>( <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">us_map</a></code></pre></div>
 <p><img src="projections_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Application of a projeted coordinate system via <code>coord_map</code> produces the same output (whose default projection is <em>mercator</em>).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">us_map <span class="op">+</span><span class="st"> </span><span class="kw">coord_map</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">us_map <span class="op">+</span><span class="st"> </span><span class="kw">coord_map</span>()</a></code></pre></div>
 <p><img src="projections_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">us_map <span class="op">+</span><span class="st"> </span><span class="kw">coord_map</span>(<span class="dt">projection=</span><span class="st">&quot;azequalarea&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">us_map <span class="op">+</span><span class="st"> </span><span class="kw">coord_map</span>(<span class="dt">projection=</span><span class="st">&quot;azequalarea&quot;</span>)</a></code></pre></div>
 <p><img src="projections_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">us_map <span class="op">+</span><span class="st"> </span><span class="kw">coord_map</span>( <span class="dt">projection=</span><span class="st">&quot;guyou&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">us_map <span class="op">+</span><span class="st"> </span><span class="kw">coord_map</span>( <span class="dt">projection=</span><span class="st">&quot;guyou&quot;</span>)</a></code></pre></div>
 <p><img src="projections_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>See <code>?coord_map</code> for other a list of available projections.</p>
 </div>

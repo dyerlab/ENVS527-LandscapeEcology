@@ -46,7 +46,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -158,7 +158,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -503,6 +502,18 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    WFS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="web_feature_services.html">Web Services</a>
+    </li>
+  </ul>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -569,8 +580,8 @@ The file specifying the projection
 </table>
 <p>There may be many more files that are generated as part of the shapefile<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <p>To read in a shapefile, we’ll use the <code>sf</code> (Simple Features) library. Most of the functions in this library have the prefix <code>st_</code> to mimic the spatial operations used in PostGIS, so if you make the leap to working with a Postgres/PostGIS spatial database, you’ll feel right at home.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb1-2" title="2">structures &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;./data/structures.shp&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">structures &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;./data/structures.shp&quot;</span>)</a></code></pre></div>
 <pre><code>## Reading layer `structures&#39; from data source `/Users/rodney/Desktop/DLab-Spatial/data/structures.shp&#39; using driver `ESRI Shapefile&#39;
 ## Simple feature collection with 8134 features and 5 fields
 ## geometry type:  POLYGON
@@ -579,10 +590,10 @@ The file specifying the projection
 ## epsg (SRID):    4326
 ## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
 <p>Automatically, the meta data about the object is presented. Notice that the <code>structures</code> object is actually a mix of two classes</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">class</span>(structures)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">class</span>(structures)</a></code></pre></div>
 <pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
 <p>making them rather easy to use in the normal workflow.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">summary</span>(structures)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">summary</span>(structures)</a></code></pre></div>
 <pre><code>##  SubType                                    GlobalID      RuleID_DS     
 ##  1:6280   {0001D58D-128C-4968-ABEC-AB99D5B1FBBB}:   1   Min.   :0.0000  
 ##  2:  18   {0009F83B-E6F1-468D-A0D2-DDC0F505FF9A}:   1   1st Qu.:1.0000  
@@ -599,14 +610,14 @@ The file specifying the projection
 ##  3rd Qu.: 185.29   3rd Qu.:  1519.3                       
 ##  Max.   :4308.17   Max.   :360331.7                       
 ## </code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw">ggplot</span>(structures) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">geom_sf</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-4" title="4"><span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-5" title="5"><span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">datum=</span><span class="ot">NA</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">ggplot</span>(structures) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_sf</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">  </span><span class="kw">coord_sf</span>(<span class="dt">datum=</span><span class="ot">NA</span>)</a></code></pre></div>
 <p><img src="shapefiles_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>You can use functions from the <code>dplyr</code> library to filter the contents of <code>sf</code>/<code>data.frame</code> objects. Here is an example where I plot the structures of <code>SubType==1</code> as well as paved roads and different water sources.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">roads &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/roads.shp&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">roads &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/roads.shp&quot;</span>)</a></code></pre></div>
 <pre><code>## Reading layer `roads&#39; from data source `/Users/rodney/Desktop/DLab-Spatial/data/roads.shp&#39; using driver `ESRI Shapefile&#39;
 ## Simple feature collection with 318 features and 4 fields
 ## geometry type:  MULTIPOLYGON
@@ -614,7 +625,7 @@ The file specifying the projection
 ## bbox:           xmin: -77.46736 ymin: 37.52097 xmax: -77.4254 ymax: 37.55161
 ## epsg (SRID):    4326
 ## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">water &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/water.shp&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">water &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/water.shp&quot;</span>)</a></code></pre></div>
 <pre><code>## Reading layer `water&#39; from data source `/Users/rodney/Desktop/DLab-Spatial/data/water.shp&#39; using driver `ESRI Shapefile&#39;
 ## Simple feature collection with 9 features and 6 fields
 ## geometry type:  POLYGON
@@ -622,14 +633,14 @@ The file specifying the projection
 ## bbox:           xmin: -77.46736 ymin: 37.52409 xmax: -77.4254 ymax: 37.5352
 ## epsg (SRID):    4326
 ## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="kw">ggplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw">geom_sf</span>( <span class="dt">data=</span>roads <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>( Paved <span class="op">==</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">color=</span><span class="st">&quot;darkgreen&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span><span class="kw">geom_sf</span>( <span class="dt">data=</span>structures <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>( SubType <span class="op">==</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">color=</span><span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="st">  </span><span class="kw">geom_sf</span>( <span class="dt">data=</span>water, <span class="dt">color=</span><span class="st">&quot;lightblue&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>WaterBodyT)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-6" title="6"><span class="st">  </span><span class="kw">labs</span>( <span class="dt">fill=</span><span class="st">&quot;Water Type&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-7" title="7"><span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-8" title="8"><span class="st">  </span><span class="kw">coord_sf</span>( <span class="dt">datum=</span><span class="ot">NA</span> )</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_sf</span>( <span class="dt">data=</span>roads <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>( Paved <span class="op">==</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">color=</span><span class="st">&quot;darkgreen&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">  </span><span class="kw">geom_sf</span>( <span class="dt">data=</span>structures <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>( SubType <span class="op">==</span><span class="st"> </span><span class="dv">1</span>), <span class="dt">color=</span><span class="st">&quot;black&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_sf</span>( <span class="dt">data=</span>water, <span class="dt">color=</span><span class="st">&quot;lightblue&quot;</span>, <span class="kw">aes</span>(<span class="dt">fill=</span>WaterBodyT)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="st">  </span><span class="kw">labs</span>( <span class="dt">fill=</span><span class="st">&quot;Water Type&quot;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="st">  </span><span class="kw">theme_void</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="st">  </span><span class="kw">coord_sf</span>( <span class="dt">datum=</span><span class="ot">NA</span> )</a></code></pre></div>
 <p><img src="shapefiles_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div class="footnotes">

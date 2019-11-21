@@ -45,7 +45,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -157,7 +157,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -502,6 +501,18 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    WFS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="web_feature_services.html">Web Services</a>
+    </li>
+  </ul>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -520,9 +531,9 @@ div.tocify {
 <div id="raw-data" class="section level2">
 <h2>Raw Data</h2>
 <p>We often start with data in raw format. For this example, we will be using the <em>Araptus attenuata</em> Sonoran desert bark beetle data set from the <code>scape</code> library. If you do not have it, install it from the <a href="https://github.com/dyerlab/scape">Dyerlab Github</a> account. Here is what it looks like.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(scape)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">data</span>(<span class="st">&quot;araptus&quot;</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">summary</span>(araptus)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(scape)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">data</span>(<span class="st">&quot;araptus&quot;</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">summary</span>(araptus)</a></code></pre></div>
 <pre><code>##       Site      Longitude         Latitude         Males      
 ##  12     : 1   Min.   :-114.3   Min.   :23.29   Min.   : 9.00  
 ##  153    : 1   1st Qu.:-113.2   1st Qu.:24.88   1st Qu.:16.00  
@@ -546,18 +557,18 @@ div.tocify {
 <h2>Geometric Objects</h2>
 <p>In addition to normal floating-point numbers being able to represent coordinate data such as latitude and longitude, we can also specify the data as objects recognizable for spatial databases, GIS, opensource libraries, GeoJSON, etc. These are <a href="http://www.opengeospatial.org/standards/sfa">ISO standards</a> and if we put our data into these formats, we gain the ability to use a much wider array of tools.</p>
 <p>For our purposes, we will use the implentation in the <code>sf</code> (Simple Features) library.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(sf)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(sf)</a></code></pre></div>
 <p>Most of the methods in the library are prefixed with <code>st_</code> as a nod to the routine names that are used in geospatial databases (so by learning <code>sf</code> you are getting a leg up on how to use spatial database calls as well).</p>
 <p>To make a point we can construct it as a <em>Well-Known Text</em> object (WKT) as:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">const &lt;-<span class="st"> </span><span class="kw">st_point</span>( <span class="kw">c</span>( <span class="fl">-111.7</span>, <span class="fl">26.14</span>) ) </a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">st_as_text</span>(const)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">const &lt;-<span class="st"> </span><span class="kw">st_point</span>( <span class="kw">c</span>( <span class="fl">-111.7</span>, <span class="fl">26.14</span>) ) </a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">st_as_text</span>(const)</a></code></pre></div>
 <pre><code>## [1] &quot;POINT (-111.7 26.14)&quot;</code></pre>
 <p>or as a <em>Well-Known Binary</em> (WBK) as:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">st_as_binary</span>(const)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">st_as_binary</span>(const)</a></code></pre></div>
 <pre><code>##  [1] 01 01 00 00 00 cd cc cc cc cc ec 5b c0 a4 70 3d 0a d7 23 3a 40</code></pre>
 <p>We can convert the <code>data.frame</code> above to one that contains these GEOMETRY objects.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">araptus_sf &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(araptus,<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>))</a>
-<a class="sourceLine" id="cb8-2" title="2">araptus_sf</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">araptus_sf &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(araptus,<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;Longitude&quot;</span>,<span class="st">&quot;Latitude&quot;</span>))</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">araptus_sf</a></code></pre></div>
 <pre><code>## Simple feature collection with 29 features and 4 fields
 ## geometry type:  POINT
 ## dimension:      XY
@@ -577,12 +588,12 @@ div.tocify {
 ## 9   166    19      26   0.2673030 POINT (-112.0806 25.91409)
 ## 10  168    28      25   0.4964650 POINT (-111.2156 25.55757)</code></pre>
 <p>However, notice there is no Coordinate Reference System (CRS) associated with these data.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">st_crs</span>(araptus_sf)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">st_crs</span>(araptus_sf)</a></code></pre></div>
 <pre><code>## Coordinate Reference System: NA</code></pre>
 <p>The ‘coordinates’ we specified are just points, which we happened to label as “Latitude” and “Longitude” but we could have called them “X” and “Y” and unless you specify the CRS, R will pretend like it has no idea what system you are using. If we want to make them represent real coordiantes (as in Latitude and Longitude we yanked off our GPS unit or grabbed from Google Earth), we need to specify the CRS directly. See the page on <a href="projections.html">projections</a> for more information.</p>
 <p>Here is a quick way to set a CRS using EPSG codes, an EPSG code (see <a href="https://epsg.io">EPSG.io</a> for more information) is a shorthand notation for a coordinate reference system. There are tons of different projects available and you can make up your own if you like. For this example, I’ll use one of the most common ones we will run into, <code>epsg:3857</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">st_crs</span>(araptus_sf) &lt;-<span class="st"> </span><span class="dv">3857</span></a>
-<a class="sourceLine" id="cb12-2" title="2">araptus_sf</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">st_crs</span>(araptus_sf) &lt;-<span class="st"> </span><span class="dv">3857</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">araptus_sf</a></code></pre></div>
 <pre><code>## Simple feature collection with 29 features and 4 fields
 ## geometry type:  POINT
 ## dimension:      XY
@@ -628,7 +639,7 @@ div.tocify {
 <div id="bounding-boxes" class="section level2">
 <h2>Bounding Boxes</h2>
 <p>A bounding box is the minimal set of coordinates that create a square box (in Longitude and Latitude) that encompass all the points. Here is the box for the sites we collected.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">st_bbox</span>( araptus_sf )</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">st_bbox</span>( araptus_sf )</a></code></pre></div>
 <pre><code>##       xmin       ymin       xmax       ymax 
 ## -114.29353   23.28550 -109.32700   29.32541</code></pre>
 <p>This is often useful in grabbing maps as we need to know the <code>extent</code> of the data.</p>
